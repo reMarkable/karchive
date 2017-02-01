@@ -10,12 +10,12 @@
     "url": "https://github.com/remarkableno/karchive.git"
   },
   "version": {
-    "label": "5.30.0",
+    "label": "5.30.0-2",
     "revision": "",
     "fingerprint": ""
   },
   "dependencies": [
-    "org.kde.karchive@5.30.0"
+    "org.kde.karchive@5.30.0-2"
   ],
   "license": "LGPL_2_1",
   "pri_filename": "org_kde_karchive.pri",
