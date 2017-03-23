@@ -31,6 +31,7 @@ HEADERS += \
     $$PWD/src/karchive.h \
     $$PWD/src/klimitediodevice_p.h \
     $$PWD/src/kfilterdev.h \
+    $$PWD/src/karchive_export.h \
 
 INCLUDEPATH += $$PWD/src/
 
