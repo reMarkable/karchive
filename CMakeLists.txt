@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(KF5_VERSION "5.31.0") # handled by release scripts
+set(KF5_VERSION "5.33.0") # handled by release scripts
 project(KArchive VERSION ${KF5_VERSION})
 
 include(FeatureSummary)
-find_package(ECM 5.30.0  NO_MODULE)
+find_package(ECM 5.32.0  NO_MODULE)
 set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://projects.kde.org/projects/kdesupport/extra-cmake-modules")
 feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
@@ -18,7 +18,7 @@ include(KDECMakeSettings)
 
 include(GenerateExportHeader)
 
-set(REQUIRED_QT_VERSION 5.5.0)
+set(REQUIRED_QT_VERSION 5.6.0)
 find_package(Qt5Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 
 find_package(ZLIB)
