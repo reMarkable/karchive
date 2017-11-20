@@ -33,7 +33,8 @@
 #include <qplatformdefs.h>
 
 #include <time.h>
-#include <zlib.h>
+#define MINIZ_NO_ZLIB_COMPATIBLE_NAMES
+#include <miniz.h>
 #include <string.h>
 
 #ifndef QT_STAT_LNK
@@ -827,7 +828,7 @@ bool KZip::closeArchive()
 
     // to be written at the end of the file...
     char buffer[22]; // first used for 12, then for 22 at the end
-    uLong crc = crc32(0L, Z_NULL, 0);
+    mz_ulong crc = mz_crc32(0L, 0, 0);
 
     qint64 centraldiroffset = device()->pos();
     //qCDebug(KArchiveLog) << "closearchive: centraldiroffset: " << centraldiroffset;
@@ -847,7 +848,7 @@ bool KZip::closeArchive()
         //    << it.current()->path()
         //    << "encoding:" << it.current()->encoding();
 
-        uLong mycrc = it.value()->crc32();
+        mz_ulong mycrc = it.value()->crc32();
         buffer[0] = char(mycrc); // crc checksum, at headerStart+14
         buffer[1] = char(mycrc >> 8);
         buffer[2] = char(mycrc >> 16);
@@ -903,7 +904,7 @@ bool KZip::closeArchive()
 
         transformToMsDos(it.value()->date(), &buffer[12]);
 
-        uLong mycrc = it.value()->crc32();
+        mz_ulong mycrc = it.value()->crc32();
         buffer[16] = char(mycrc); // crc checksum
         buffer[17] = char(mycrc >> 8);
         buffer[18] = char(mycrc >> 16);
@@ -958,7 +959,7 @@ bool KZip::closeArchive()
             extfield[8] = char(time >> 24);
         }
 
-        crc = crc32(crc, (Bytef *)buffer, bufferSize);
+        crc = mz_crc32(crc, (unsigned char *)buffer, bufferSize);
         bool ok = (device()->write(buffer, bufferSize) == bufferSize);
         delete[] buffer;
         if (!ok) {
@@ -1301,7 +1302,7 @@ bool KZip::writeData(const char *data, qint64 size)
 
     // crc to be calculated over uncompressed stuff...
     // and they didn't mention it in their docs...
-    d->m_crc = crc32(d->m_crc, (const Bytef *) data, size);
+    d->m_crc = mz_crc32(d->m_crc, (const unsigned char *) data, size);
 
     qint64 written = d->m_currentDev->write(data, size);
     //qCDebug(KArchiveLog) << "wrote" << size << "bytes.";

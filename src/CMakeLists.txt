@@ -33,6 +33,7 @@ set(karchive_SRCS
     ktar.cpp
     kzip.cpp
     krcc.cpp
+    miniz.c
 )
 
 ecm_qt_declare_logging_category(karchive_SRCS
