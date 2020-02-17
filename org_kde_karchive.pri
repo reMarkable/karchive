@@ -34,4 +34,8 @@ HEADERS += \
 
 INCLUDEPATH += $$PWD/src/
 
-LIBS += -lz
+msvc {
+    LIBS += -luser32 -ladvapi32
+} else {
+    LIBS += -lz
+}
