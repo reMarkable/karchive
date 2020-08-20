@@ -20,3 +20,5 @@
 #  define KARCHIVE_EXPORT
 #endif
 // clang-format on
+
+#endif
