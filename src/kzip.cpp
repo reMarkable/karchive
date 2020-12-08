@@ -42,6 +42,10 @@
 
 static const int max_path_len = 4095;   // maximum number of character a path may contain
 
+// Call KZipFileEntry::crc32() via a function as QtZLib redefines crc32 to
+// z_crc32, which breaks compilation when we use that exact symbol.
+static unsigned long get_crc32(KZipFileEntry *entry);
+
 static void transformToMsDos(const QDateTime &_dt, char *buffer)
 {
     const QDateTime dt = _dt.isValid() ? _dt : QDateTime::currentDateTime();
@@ -847,7 +851,7 @@ bool KZip::closeArchive()
         //    << it.current()->path()
         //    << "encoding:" << it.current()->encoding();
 
-        uLong mycrc = it.value()->crc32();
+        uLong mycrc = get_crc32(it.value());
         buffer[0] = char(mycrc); // crc checksum, at headerStart+14
         buffer[1] = char(mycrc >> 8);
         buffer[2] = char(mycrc >> 16);
@@ -903,7 +907,7 @@ bool KZip::closeArchive()
 
         transformToMsDos(it.value()->date(), &buffer[12]);
 
-        uLong mycrc = it.value()->crc32();
+        uLong mycrc = get_crc32(it.value());
         buffer[16] = char(mycrc); // crc checksum
         buffer[17] = char(mycrc >> 8);
         buffer[18] = char(mycrc >> 16);
@@ -1398,11 +1402,6 @@ qint64 KZipFileEntry::headerStart() const
     return d->headerStart;
 }
 
-unsigned long KZipFileEntry::crc32() const
-{
-    return d->crc;
-}
-
 void KZipFileEntry::setCRC32(unsigned long crc32)
 {
     d->crc = crc32;
@@ -1453,4 +1452,16 @@ QIODevice *KZipFileEntry::createDevice() const
                 << "please use a command-line tool to handle this file.";
     delete limitedDev;
     return nullptr;
+}
+
+#undef crc32
+
+unsigned long KZipFileEntry::crc32() const
+{
+    return d->crc;
+}
+
+static unsigned long get_crc32(KZipFileEntry *entry)
+{
+    return entry->crc32();
 }
