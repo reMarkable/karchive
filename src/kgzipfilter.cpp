@@ -26,6 +26,11 @@
 #include <QDebug>
 #include <QIODevice>
 
+// When compiling with QtZlib, these will be defined to z_uncompress and
+// z_compress, which will then mess up functions named thus below.s
+#undef uncompress
+#undef compress
+
 /* gzip flag byte */
 #define ORIG_NAME    0x08 /* bit 3 set: original file name present */
 
