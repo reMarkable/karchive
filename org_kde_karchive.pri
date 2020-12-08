@@ -11,8 +11,7 @@ SOURCES += \
     $$PWD/src/krcc.cpp \
     $$PWD/src/kfilterbase.cpp \
     $$PWD/src/klimitediodevice.cpp \
-    $$PWD/src/loggingcategory.cpp \
-    $$PWD/src/miniz.c \
+    $$PWD/src/loggingcategory.cpp
 
 HEADERS += \
     $$PWD/src/kgzipfilter.h \
@@ -33,7 +32,6 @@ HEADERS += \
     $$PWD/src/klimitediodevice_p.h \
     $$PWD/src/kfilterdev.h \
     $$PWD/src/karchive_export.h \
-    $$PWD/src/miniz.h \
 
 INCLUDEPATH += $$PWD/src/
 
